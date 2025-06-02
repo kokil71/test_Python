@@ -1,0 +1,42 @@
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
+import sys
+
+class mainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui_mainWindow()
+        self.ui_menubar()
+
+    def ui_mainWindow(self):
+        self.resize(300,100)
+
+    def ui_menubar(self):
+        menu = QMenuBar(self)   # menubar 생성
+        menu.addMenu('text')    # menu 추가 (클릭하면 메뉴팝업) QIon, str, QMenu 객체 가능
+
+        filemenu = QMenu(menu)  # menu를 parent로하는 QMenu객체 생성
+        filemenu.setTitle('QMenu') # QMenu의 제목
+        filemenu.addAction('No.1') # QMenu에 액션 추가
+        filemenu.addAction('No.2')
+        filemenu.addSeparator() # QMenu에 구분선 추가
+        action_exit = QAction(self) # QAction객체 생성
+        action_exit.triggered.connect(qApp.quit) # 종료 액션 부여
+        action_exit.setText('&Exit') # QAction 제목 설정
+        filemenu.addAction(action_exit) # QMenu에 해당 QAction추가
+        widget_line = QLineEdit(self) # QWidget 객체 생성
+        menu.setCornerWidget(widget_line,Qt.TopLeftCorner) # 왼쪽모서리에 위젯추가
+        print(menu.cornerWidget(Qt.TopLeftCorner))
+        menu.setDefaultUp(True) # 팝업을 위 방향으로
+        menu.addMenu(filemenu) # QMenu객체를 QMenuBar에 추가
+
+        menu.addAction('action') #action 추가 (클릭하면 실행됨) QAction 객체 가능
+        #menu.clear() # 메뉴바 삭제
+
+        self.setMenuBar(menu) # QMainWindow에 QMenuBar 객체 추가
+
+if __name__=="__main__":
+    app = QApplication(sys.argv)
+    myWindow = mainWindow()
+    myWindow.show()
+    sys.exit(app.exec_())
